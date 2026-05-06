@@ -12,6 +12,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import api from '../api';
+import RegistroFormPanel from './RegistroFormPanel';
 import {
   ArrowLeft,
   BrainCircuit,
@@ -25,6 +26,7 @@ import {
   FileText,
   Lightbulb,
   BarChart3,
+  Plus,
 } from 'lucide-react';
 
 // ─── Custom Node Component ───────────────────────────────────
@@ -227,10 +229,10 @@ export default function AnalisisCanvas({ sujetoId, sujetoNombre, onBack }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  // Reusable fetch function for initial load and reactive updates
+  const fetchData = useCallback((showLoader = true) => {
     if (!sujetoId) return;
-
-    setLoading(true);
+    if (showLoader) setLoading(true);
     setError(null);
 
     // Peticiones en paralelo
@@ -251,6 +253,10 @@ export default function AnalisisCanvas({ sujetoId, sujetoNombre, onBack }) {
       })
       .finally(() => setLoading(false));
   }, [sujetoId]);
+
+  useEffect(() => {
+    fetchData(true);
+  }, [fetchData]);
 
   // Distribution bar chart data
   const distEntries = analisis?.distribucion_funciones
@@ -276,13 +282,25 @@ export default function AnalisisCanvas({ sujetoId, sujetoNombre, onBack }) {
           <AlertTriangle className="w-16 h-16 text-amber-400 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-white mb-2">Sin Datos Suficientes</h2>
           <p className="text-slate-400 mb-6">{error}</p>
-          <button
-            onClick={onBack}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white rounded-xl 
-              hover:bg-slate-700 transition-all border border-slate-700"
-          >
-            <ArrowLeft size={18} /> Volver al Dashboard
-          </button>
+          <div className="flex items-center justify-center gap-3">
+            <button
+              onClick={onBack}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white rounded-xl 
+                hover:bg-slate-700 transition-all border border-slate-700"
+            >
+              <ArrowLeft size={18} /> Volver
+            </button>
+            <button
+              onClick={() => { setError(null); setLoading(false); }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl 
+                bg-gradient-to-r from-blue-600 to-purple-600 text-white 
+                hover:from-blue-500 hover:to-purple-500 transition-all
+                shadow-lg shadow-blue-600/25"
+              id="btn-add-first-record"
+            >
+              <Plus size={18} /> Crear Primer Registro
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -340,7 +358,7 @@ export default function AnalisisCanvas({ sujetoId, sujetoNombre, onBack }) {
         </div>
 
         {/* React Flow Canvas */}
-        <div className="flex-1" id="analysis-canvas">
+        <div className="flex-1 relative" id="analysis-canvas">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -368,6 +386,12 @@ export default function AnalisisCanvas({ sujetoId, sujetoNombre, onBack }) {
               maskColor="rgba(15, 23, 42, 0.7)"
             />
           </ReactFlow>
+
+          {/* Floating Form Panel */}
+          <RegistroFormPanel
+            sujetoId={sujetoId}
+            onSaved={() => fetchData(false)}
+          />
         </div>
       </div>
 

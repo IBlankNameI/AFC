@@ -69,6 +69,46 @@ body {
   }
 }
 
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes backdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes lintPulse {
+  0%, 100% {
+    border-color: rgba(245, 158, 11, 0.25);
+  }
+  50% {
+    border-color: rgba(245, 158, 11, 0.5);
+  }
+}
+
 @keyframes pulse-glow {
   0%, 100% {
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
@@ -84,6 +124,80 @@ body {
 
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ─── Modal Animations ─── */
+.modal-backdrop {
+  background: rgba(2, 6, 23, 0.75);
+  backdrop-filter: blur(8px);
+  animation: backdropIn 0.2s ease-out forwards;
+}
+
+.modal-content {
+  animation: fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ─── Form Panel Animation ─── */
+.form-panel-enter {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ─── Lint Warning Animation ─── */
+.lint-warning-enter {
+  animation: fadeInUp 0.3s ease-out forwards, lintPulse 2s ease-in-out infinite;
+}
+
+/* ─── Custom Intensity Slider ─── */
+.intensity-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(
+    to right,
+    var(--slider-color) 0%,
+    var(--slider-color) var(--slider-pct),
+    #1e293b var(--slider-pct),
+    #1e293b 100%
+  );
+  transition: background 0.15s ease;
+}
+
+.intensity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--slider-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.intensity-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.intensity-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--slider-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.intensity-slider::-moz-range-track {
+  height: 6px;
+  border-radius: 8px;
+  background: #1e293b;
 }
 
 /* ─── Line Clamp Utility ─── */

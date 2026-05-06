@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import api from './api';
 import AnalisisCanvas from './components/AnalisisCanvas';
+import NuevoSujetoModal from './components/NuevoSujetoModal';
 import { UserPlus, Activity, BrainCircuit, Search, Users, Dna } from 'lucide-react';
 
 function App() {
   const [sujetos, setSujetos] = useState([]);
   const [selectedSujeto, setSelectedSujeto] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     api.get('/sujetos/').then(res => setSujetos(res.data)).catch(err => console.error(err));
@@ -16,6 +18,11 @@ function App() {
   const filtered = sujetos.filter(s =>
     s.nombre_codigo.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Callback: nuevo sujeto creado → agregarlo a la lista
+  const handleSujetoCreated = (nuevoSujeto) => {
+    setSujetos(prev => [nuevoSujeto, ...prev]);
+  };
 
   // ─── Vista de Análisis ─────────────────────────────────────
   if (selectedSujeto) {
@@ -55,6 +62,7 @@ function App() {
             </div>
 
             <button
+              onClick={() => setShowModal(true)}
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white 
                 px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-blue-600/25 
                 hover:shadow-blue-500/40 font-medium text-sm"
@@ -152,10 +160,28 @@ function App() {
               <p className="text-slate-700 text-sm mt-1">
                 {searchTerm ? 'Prueba con otro término de búsqueda' : 'Comienza creando un nuevo sujeto'}
               </p>
+              {!searchTerm && (
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl 
+                    bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold
+                    hover:from-blue-500 hover:to-purple-500 transition-all
+                    shadow-lg shadow-blue-600/25"
+                >
+                  <UserPlus size={16} /> Crear Primer Sujeto
+                </button>
+              )}
             </div>
           )}
         </div>
       </main>
+
+      {/* Modal de Nuevo Sujeto */}
+      <NuevoSujetoModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onCreated={handleSujetoCreated}
+      />
     </div>
   );
 }
