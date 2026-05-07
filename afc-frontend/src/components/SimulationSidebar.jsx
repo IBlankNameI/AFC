@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TrendingDown, TrendingUp, Minus, Wand2, Save, CheckCircle, Loader2, ArrowRight } from 'lucide-react';
-import api from '../api';
+import api from '../services/api';
 
 // Refactoring suggestions based on detected function
 const REFACTORING_SUGGESTIONS = {

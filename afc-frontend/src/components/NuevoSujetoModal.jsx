@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, UserPlus, Loader2, Dna, CheckCircle } from 'lucide-react';
-import api from '../api';
+import api from '../services/api';
 
 export default function NuevoSujetoModal({ isOpen, onClose, onCreated }) {
   const [nombreCodigo, setNombreCodigo] = useState('');

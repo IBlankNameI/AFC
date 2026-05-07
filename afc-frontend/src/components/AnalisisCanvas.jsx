@@ -4,7 +4,7 @@ import {
   useNodesState, useEdgesState, MarkerType, Handle, Position,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import api from '../api';
+import api from '../services/api';
 import RegistroFormPanel from './RegistroFormPanel';
 import SimulationSidebar from './SimulationSidebar';
 import {

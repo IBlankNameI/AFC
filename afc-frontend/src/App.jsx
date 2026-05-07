@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from './api';
+import api from './services/api';
 import AnalisisCanvas from './components/AnalisisCanvas';
 import NuevoSujetoModal from './components/NuevoSujetoModal';
 import { UserPlus, Activity, BrainCircuit, Search, Users, Dna } from 'lucide-react';

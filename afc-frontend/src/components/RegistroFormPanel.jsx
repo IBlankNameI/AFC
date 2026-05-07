@@ -10,7 +10,7 @@ import {
   ChevronUp,
   ShieldAlert,
 } from 'lucide-react';
-import api from '../api';
+import api from '../services/api';
 
 // ─── Behavioral Language Linter ──────────────────────────────
 const PALABRAS_PROHIBIDAS = [
