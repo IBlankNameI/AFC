@@ -1,0 +1,8 @@
+{
+  "name": "afc-root",
+  "version": "1.0.0",
+  "description": "Root management for AFC project",
+  "scripts": {
+    "dev": "npx concurrently \"npm run dev --prefix afc-frontend\" \"venv\\Scripts\\python -m uvicorn main:app --reload\""
+  }
+}
