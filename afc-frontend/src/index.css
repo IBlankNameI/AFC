@@ -207,3 +207,23 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* ─── Simulation Mode ─── */
+@keyframes simNodeGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(139, 92, 246, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
+}
+
+.sim-node-glow {
+  animation: simNodeGlow 2s ease-in-out infinite;
+}
+
+.sim-mode-active .react-flow__edge-path {
+  stroke-dasharray: 5;
+  animation: dashFlow 1s linear infinite;
+}
+
+@keyframes dashFlow {
+  to { stroke-dashoffset: -10; }
+}
+
